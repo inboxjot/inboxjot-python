@@ -1,0 +1,55 @@
+[project]
+name = "inboxjot"
+version = "0.1.0"
+description = "The official Python SDK for the Inboxjot email API"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Arik Chakma", email = "arikchangma@gmail.com" }]
+requires-python = ">=3.10"
+keywords = ["inboxjot", "email", "email-api", "sdk", "transactional-email"]
+dependencies = ["httpx>=0.27,<1"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Communications :: Email",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://inboxjot.com"
+Documentation = "https://inboxjot.com/docs"
+Repository = "https://github.com/inboxjot/inboxjot-python"
+Issues = "https://github.com/inboxjot/inboxjot-python/issues"
+
+[dependency-groups]
+dev = ["pyright>=1.1", "pytest>=8", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pyright]
+include = ["src", "tests"]
+pythonVersion = "3.10"
+typeCheckingMode = "strict"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [".github", "uv.lock"]
