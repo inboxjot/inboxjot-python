@@ -20,6 +20,8 @@ ContactSort = Literal["added", "contact", "last_activity"]
 EmailSource = Literal["api", "smtp", "dashboard", "mcp", "campaign", "automation"]
 SortDirection = Literal["asc", "desc"]
 TopicChoiceStatus = Literal["subscribed", "unsubscribed"]
+BrandChoiceStatus = Literal["subscribed", "unsubscribed"]
+UnsubscribeSource = Literal["contact", "team"]
 EmailActor = Literal["human", "apple_mpp", "scanner", "unknown"]
 BounceType = Literal["permanent", "transient", "undetermined"]
 ComplaintType = Literal["abuse"]
@@ -261,8 +263,14 @@ class TopicChoice(TypedDict):
     status: TopicChoiceStatus
 
 
+class BrandChoice(TypedDict):
+    id: str
+    status: BrandChoiceStatus
+
+
 class UpdateContactOptions(ContactFields, total=False):
     topics: list[TopicChoice] | None
+    brands: list[BrandChoice] | None
 
 
 class SegmentRef(TypedDict):
@@ -277,6 +285,15 @@ class ContactTopic(TypedDict):
     subscribed: bool
 
 
+class ContactBrand(TypedDict):
+    id: str
+    name: str
+    status: BrandChoiceStatus
+    paused_until: str | None
+    unsubscribed_at: str | None
+    unsubscribe_source: UnsubscribeSource | None
+
+
 class Contact(TypedDict):
     id: str
     email: str
@@ -287,6 +304,7 @@ class Contact(TypedDict):
     properties: dict[str, ContactPropertyValue]
     segments: list[SegmentRef]
     topics: list[ContactTopic]
+    brands: list[ContactBrand]
     created_at: str
     updated_at: str
 
@@ -1079,6 +1097,7 @@ class TopicCounts(TypedDict):
 
 class Topic(TypedDict):
     id: str
+    brand_id: str | None
     name: str
     description: str | None
     default_subscribed: bool
@@ -1109,6 +1128,7 @@ class _TopicFields(TypedDict, total=False):
     sender_name: str | None
     sender_email: str | None
     redirect_url: str | None
+    brand_id: str | None
 
 
 class CreateTopicOptions(_TopicFields):
@@ -1120,3 +1140,35 @@ class UpdateTopicOptions(_TopicFields, total=False):
 
 
 DeleteTopicResponse = StatusOk
+
+
+class ListBrandsOptions(TypedDict, total=False):
+    after: str | None
+    before: str | None
+    per_page: int
+
+
+class Brand(TypedDict):
+    id: str
+    name: str
+    slug: str
+    logo_url: str | None
+    is_default: bool
+    default_topic_id: str | None
+    topic_count: int
+    created_at: str
+    updated_at: str
+
+
+class BrandPage(TypedDict):
+    data: list[Brand]
+    next_cursor: str | None
+    prev_cursor: str | None
+
+
+class CreateBrandOptions(TypedDict):
+    name: str
+
+
+UpdateBrandOptions = CreateBrandOptions
+DeleteBrandResponse = StatusOk

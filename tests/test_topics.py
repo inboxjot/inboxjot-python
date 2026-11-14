@@ -9,7 +9,7 @@ def test_maps_each_method_to_its_route() -> None:
     check_routes(
         [
             (lambda i: i.topics.list({"after": "tp_0"}), f"GET {BASE}?after=tp_0"),
-            (lambda i: i.topics.create({"name": "News"}), f"POST {BASE}"),
+            (lambda i: i.topics.create({"name": "News", "brand_id": "brd_1"}), f"POST {BASE}"),
             (lambda i: i.topics.get("tp_1"), f"GET {BASE}/tp_1"),
             (lambda i: i.topics.update("tp_1", {"visibility": "private"}), f"PATCH {BASE}/tp_1"),
             (lambda i: i.topics.delete("tp_1"), f"DELETE {BASE}/tp_1"),
@@ -20,6 +20,7 @@ def test_maps_each_method_to_its_route() -> None:
 def test_decodes_topics() -> None:
     topic: Topic = {
         "id": "tp_1",
+        "brand_id": "brd_1",
         "name": "News",
         "description": None,
         "default_subscribed": True,

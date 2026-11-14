@@ -90,6 +90,7 @@ inboxjot.contacts.list({"status": "subscribed", "per_page": 50})
 inboxjot.contacts.get(contact["id"])
 inboxjot.contacts.get("jane@example.com")
 inboxjot.contacts.update(contact["id"], {"topics": [{"id": "tp_...", "status": "unsubscribed"}]})
+inboxjot.contacts.update(contact["id"], {"brands": [{"id": "brd_...", "status": "unsubscribed"}]})
 inboxjot.contacts.delete(contact["id"])
 inboxjot.contacts.erase({"email": "jane@example.com"})
 
@@ -158,7 +159,7 @@ inboxjot.images.get(image["id"])
 inboxjot.images.delete(image["id"])
 ```
 
-### Segments and topics
+### Segments, topics and brands
 
 ```python
 segment = inboxjot.segments.create({"name": "Beta", "type": "static"})
@@ -175,6 +176,13 @@ inboxjot.topics.list()
 inboxjot.topics.get(topic["id"])
 inboxjot.topics.update(topic["id"], {"visibility": "private"})
 inboxjot.topics.delete(topic["id"])
+
+brand = inboxjot.brands.create({"name": "Acme Labs"})
+inboxjot.topics.create({"name": "Labs News", "brand_id": brand["id"]})
+inboxjot.brands.list()
+inboxjot.brands.get(brand["id"])
+inboxjot.brands.update(brand["id"], {"name": "Acme Studio"})
+inboxjot.brands.delete(brand["id"])
 ```
 
 ### Pagination
@@ -294,6 +302,7 @@ src/inboxjot/_domains.py    domains.list, create, get, remove, verify
 src/inboxjot/_images.py     images.list, upload, get, remove
 src/inboxjot/_segments.py   segments.list, create, get, update, remove, list_members, add_members, remove_members
 src/inboxjot/_topics.py     topics.list, create, get, update, remove
+src/inboxjot/_brands.py     brands.list, create, get, update, remove
 src/inboxjot/_webhooks.py   webhooks.list, create, get, update, remove, verify, verify_webhook
 src/inboxjot/_errors.py     InboxjotError, InboxjotConnectionError, WebhookVerificationError
 src/inboxjot/types.py       the request and response types

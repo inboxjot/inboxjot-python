@@ -14,7 +14,11 @@ def test_maps_each_method_to_its_route() -> None:
     inboxjot.contacts.get("ct_1")
     inboxjot.contacts.update(
         "ct_1",
-        {"last_name": "Doe", "topics": [{"id": "tp_1", "status": "unsubscribed"}]},
+        {
+            "last_name": "Doe",
+            "topics": [{"id": "tp_1", "status": "unsubscribed"}],
+            "brands": [{"id": "brd_1", "status": "unsubscribed"}],
+        },
     )
     inboxjot.contacts.delete("ct_1")
 
@@ -63,6 +67,16 @@ def test_decodes_contacts() -> None:
         "properties": {"plan": "pro", "seats": 3, "beta": True, "note": None},
         "segments": [{"id": "sg_1", "name": "Beta"}],
         "topics": [{"id": "tp_1", "name": "News", "status": None, "subscribed": False}],
+        "brands": [
+            {
+                "id": "brd_1",
+                "name": "Acme",
+                "status": "unsubscribed",
+                "paused_until": None,
+                "unsubscribed_at": "2026-10-21T09:00:00Z",
+                "unsubscribe_source": "contact",
+            }
+        ],
         "created_at": "2026-10-20T09:00:00Z",
         "updated_at": "2026-10-20T09:00:00Z",
     }

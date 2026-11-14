@@ -8,6 +8,7 @@ from typing import Any
 
 import httpx
 
+from ._brands import AsyncBrands, Brands
 from ._campaigns import AsyncCampaigns, Campaigns
 from ._contacts import AsyncContacts, Contacts
 from ._domains import AsyncDomains, Domains
@@ -146,6 +147,7 @@ class Inboxjot(_BaseClient):
         self.images = Images(self)
         self.segments = Segments(self)
         self.topics = Topics(self)
+        self.brands = Brands(self)
         self.webhooks = Webhooks(self)
 
     def request(
@@ -236,6 +238,7 @@ class AsyncInboxjot(_BaseClient):
         self.images = AsyncImages(self)
         self.segments = AsyncSegments(self)
         self.topics = AsyncTopics(self)
+        self.brands = AsyncBrands(self)
         self.webhooks = AsyncWebhooks(self)
 
     async def request(
