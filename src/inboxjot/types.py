@@ -245,6 +245,7 @@ class AttachmentList(TypedDict):
 
 
 class ContactFields(TypedDict, total=False):
+    user_id: str | None
     first_name: str | None
     last_name: str | None
     language: str | None
@@ -297,6 +298,7 @@ class ContactBrand(TypedDict):
 class Contact(TypedDict):
     id: str
     email: str
+    user_id: str | None
     first_name: str | None
     last_name: str | None
     language: str
@@ -362,15 +364,21 @@ class EraseContactResponse(TypedDict):
 
 class _SendEventRequired(TypedDict):
     name: str
-    email: str
 
 
 class SendEventOptions(_SendEventRequired, total=False):
+    email: str
+    user_id: str
+    occurred_at: str
     data: dict[str, Any]
 
 
 class SendEventResponse(TypedDict):
     contact_id: str
+
+
+class BatchEventResponse(TypedDict):
+    data: list[SendEventResponse]
 
 
 _EmailEventRequired = TypedDict(

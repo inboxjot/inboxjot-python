@@ -60,6 +60,7 @@ def test_decodes_contacts() -> None:
     contact: Contact = {
         "id": "ct_1",
         "email": "riti@example.com",
+        "user_id": None,
         "first_name": None,
         "last_name": None,
         "status": "subscribed",

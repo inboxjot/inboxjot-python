@@ -31,3 +31,17 @@ def test_async_client_maps_send_to_its_route() -> None:
     asyncio.run(run())
 
     assert api.routes() == ["POST https://api.test/v1/events"]
+
+
+def test_maps_batch_to_its_route() -> None:
+    api = MockApi(json_reply({"data": [{"contact_id": "ct_1"}]}))
+    events: list[SendEventOptions] = [
+        {"name": "signed_up", "email": "jane@acme.dev", "user_id": "usr_1"},
+        {"name": "paid", "user_id": "usr_1", "occurred_at": "2026-11-14T09:30:00Z"},
+    ]
+
+    result = api.client().events.batch(events)
+
+    assert result == {"data": [{"contact_id": "ct_1"}]}
+    assert api.routes() == ["POST https://api.test/v1/events/batch"]
+    assert json.loads(api.requests[0].content) == events
