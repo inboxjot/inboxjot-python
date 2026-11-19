@@ -1,7 +1,7 @@
 import asyncio
 import json
 
-from helpers import MockApi, json_reply
+from helpers import MockApi, json_reply, read_body
 
 from inboxjot.types import Attachment, Email, SendEmailOptions
 
@@ -25,6 +25,20 @@ def test_sends_an_email_with_auth_json_body_and_idempotency_key() -> None:
     assert request.headers["Content-Type"] == "application/json"
     assert request.headers["Idempotency-Key"] == "key-1"
     assert json.loads(request.content) == email
+
+
+def test_sends_tracking_choices_only_when_set() -> None:
+    api = MockApi(json_reply({"id": "em_1"}, 202), json_reply({"data": []}, 202))
+    inboxjot = api.client()
+
+    inboxjot.emails.send({"to": "a@acme.dev", "open_tracking": False})
+    inboxjot.emails.batch([{"to": "a@acme.dev", "click_tracking": True}, {"to": "b@acme.dev"}])
+
+    assert read_body(api.requests[0]) == {"to": "a@acme.dev", "open_tracking": False}
+    assert read_body(api.requests[1]) == [
+        {"to": "a@acme.dev", "click_tracking": True},
+        {"to": "b@acme.dev"},
+    ]
 
 
 def test_maps_each_method_to_its_route() -> None:

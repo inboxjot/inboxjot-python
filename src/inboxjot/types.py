@@ -153,6 +153,8 @@ _BatchEmailFields = TypedDict(
         "headers": dict[str, str],
         "tags": list[EmailTag],
         "template": TemplateRef | None,
+        "open_tracking": bool,
+        "click_tracking": bool,
     },
     total=False,
 )
