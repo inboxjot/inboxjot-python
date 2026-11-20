@@ -94,7 +94,9 @@ inboxjot.contacts.update(contact["id"], {"brands": [{"id": "brd_...", "status": 
 inboxjot.contacts.delete(contact["id"])
 inboxjot.contacts.erase({"email": "jane@example.com"})
 
-inboxjot.events.send({"name": "signed_up", "email": "jane@example.com", "data": {"plan": "pro"}})
+inboxjot.events.send(
+    {"event": "signed_up", "email": "jane@example.com", "properties": {"plan": "pro"}}
+)
 ```
 
 `contacts.remove` deletes the contact. `contacts.erase` queues a privacy erasure of the address, its emails, events and logs.

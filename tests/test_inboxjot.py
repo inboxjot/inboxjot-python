@@ -149,7 +149,7 @@ def test_does_not_retry_5xx_or_network_errors_on_writes_without_a_key() -> None:
     network = MockApi(httpx.ConnectError("connection refused"))
 
     with pytest.raises(InboxjotConnectionError, match="Connection error"):
-        network.client().events.send({"name": "a", "email": "a@acme.dev"})
+        network.client().events.send({"event": "a", "email": "a@acme.dev"})
 
     assert len(network.requests) == 1
 

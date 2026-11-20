@@ -365,14 +365,15 @@ class EraseContactResponse(TypedDict):
 
 
 class _SendEventRequired(TypedDict):
-    name: str
+    event: str
 
 
 class SendEventOptions(_SendEventRequired, total=False):
+    id: str
     email: str
     user_id: str
     occurred_at: str
-    data: dict[str, Any]
+    properties: dict[str, Any]
 
 
 class SendEventResponse(TypedDict):

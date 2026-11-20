@@ -9,9 +9,9 @@ from inboxjot.types import SendEventOptions
 def test_maps_send_to_its_route() -> None:
     api = MockApi(json_reply({"contact_id": "ct_1"}))
     event: SendEventOptions = {
-        "name": "signed_up",
+        "event": "signed_up",
         "email": "jane@acme.dev",
-        "data": {"plan": "pro"},
+        "properties": {"plan": "pro"},
     }
 
     result = api.client().events.send(event)
@@ -26,7 +26,7 @@ def test_async_client_maps_send_to_its_route() -> None:
 
     async def run() -> None:
         async with api.async_client() as inboxjot:
-            await inboxjot.events.send({"name": "signed_up", "email": "jane@acme.dev"})
+            await inboxjot.events.send({"event": "signed_up", "email": "jane@acme.dev"})
 
     asyncio.run(run())
 
@@ -36,8 +36,8 @@ def test_async_client_maps_send_to_its_route() -> None:
 def test_maps_batch_to_its_route() -> None:
     api = MockApi(json_reply({"data": [{"contact_id": "ct_1"}]}))
     events: list[SendEventOptions] = [
-        {"name": "signed_up", "email": "jane@acme.dev", "user_id": "usr_1"},
-        {"name": "paid", "user_id": "usr_1", "occurred_at": "2026-11-14T09:30:00Z"},
+        {"event": "signed_up", "email": "jane@acme.dev", "user_id": "usr_1"},
+        {"event": "paid", "user_id": "usr_1", "occurred_at": "2026-11-14T09:30:00Z"},
     ]
 
     result = api.client().events.batch(events)
